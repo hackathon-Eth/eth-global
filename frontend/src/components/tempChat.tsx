@@ -125,7 +125,11 @@ const TempChat: React.FC<ChatProps> = ({address}) => {
             });
             break;
         }
-      };
+    };
+
+    useEffect(() => {
+        fetchAndStreamConversations();
+    }, []);
 
     return (
         <IonContent>
