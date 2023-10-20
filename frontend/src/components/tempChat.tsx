@@ -23,7 +23,8 @@ const TempChat: React.FC<ChatProps> = ({address}) => {
     const [walletConnected, setWalletConnected] = useState(false);
     const [isOnNetwork, setIsOnNetwork] = useState(initialIsOnNetwork);
     const [xmtpClient, setXmtpClient] = useState<any>();
-    const [conversations, setConversations] = useState<any>([]);
+    const [conversation, setConversation] = useState<any>([]);
+    const [messages, setMessages] = useState<any>([]);
 
     const getAddress = async (signer: ethers.providers.JsonRpcSigner) => {
         try {
@@ -59,77 +60,40 @@ const TempChat: React.FC<ChatProps> = ({address}) => {
     };
 
     const setUpChat = async () => {
-        if(signer != null) {
-            let address = await getAddress(signer);
-        }
-        let keys = loadKeys(address);
-        const clientOptions = { env:"dev"};
-        if (!keys) {
-            keys = await Client.getKeys(signer, {
-              env: "dev",
-              // we don't need to publish the contact here since it
-              // will happen when we create the client later
-              skipContactPublishing: true,
-              // we can skip persistence on the keystore for this short-lived
-              // instance
-              persistConversations: false,
+        let xmtp: any;
+        if (window.ethereum) {
+            // Request access to the user's MetaMask wallet
+            window.ethereum
+            .request({ method: "eth_requestAccounts" })
+            .then((accounts :any) => {
+            const wallet = new ethers.Wallet(accounts[0]);
+        
+            // Create the client with the user's MetaMask wallet
+            xmtp = Client.create(wallet, { env: "dev" });
+        
+            // Now you can use the xmtp client with the user's MetaMask wallet
+            })
+            .catch((error:any) => {
+            console.error("Failed to connect to MetaMask:", error);
             });
-            storeKeys(address, keys);
+        } else {
+            console.error("MetaMask is not installed or not available.");
         }
-        const xmtp = await Client.create(null, {
-            env:"dev",
-            privateKeyOverride: keys,
-        });
-        setIsOnNetwork(!!xmtp.address);
-        setXmtpClient(xmtp);
+        const conv = await xmtp.conversations.newConversation(address);
+        setConversation(conv);
     }
 
-    const handleSend = () => {
+    const handleSend = async () => {
         // handle sending message logic here
         let messageToSend = message;
         setMessage("");
-
+        await conversation.sendMessage(messageToSend);
     }
 
-    // useEffect(() => {
-    //     const storedWalletConnected = localStorage.getItem("walletConnected");
-    //     const storedSignerAddress = localStorage.getItem("signerAddress");
-    //     if (storedWalletConnected && storedSignerAddress) {
-    //         setWalletConnected(JSON.parse(storedWalletConnected));
-    //         const provider = new ethers.providers.Web3Provider(window.ethereum);
-    //         const signer = provider.getSigner();
-    //         setSigner(signer);
-    //     }
-    // }, []);
-
-    const fetchAndStreamConversations = async () => {
-        // Fetch the conversations
-        const allConversations = await xmtpClient.conversations.list();
-
-        const sortedConversations = allConversations.sort(
-            (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        );
-        setConversations(sortedConversations);
-
-        // Start the stream
-        stream = await xmtpClient.conversations.stream();
-        for await (const conversation of stream) {
-            console.log(
-                `New conversation started with ${conversation.peerAddress}`,
-            );
-            setConversations((prevConversations: any) => {
-                const newConversations = [...prevConversations, conversation];
-                return newConversations.sort(
-                    (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-                );
-            });
-            break;
-        }
-    };
-
-    useEffect(() => {
-        fetchAndStreamConversations();
-    }, []);
+    const fetchMessages = async () => {
+        const messagesTemp = await conversation.messages();
+        setMessages(messagesTemp);
+    }
 
     return (
         <IonContent>
@@ -148,10 +112,6 @@ const TempChat: React.FC<ChatProps> = ({address}) => {
                 </IonCol>
                 <IonCol size="3">
                     <IonHeader>Stream</IonHeader>
-                    {conversations.length > 0 ? conversations.map((conversation: any) => (
-                            <IonText>{conversation.peerAddress}</IonText>
-                        )) : <IonText>No conversations yet</IonText>
-                    }
                 </IonCol>
                 <IonCol size="3">
                     <IonHeader>List of Recieved</IonHeader>
