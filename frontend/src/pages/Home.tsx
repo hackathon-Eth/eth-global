@@ -3,6 +3,7 @@ import './Home.css';
 import React, { useState } from 'react';
 import Web3 from 'web3';
 import TempChat from '../components/tempChat';
+import { Buffer } from 'buffer';
 
 declare global {
   interface Window { ethereum: any; web3: any; }
@@ -10,6 +11,7 @@ declare global {
 
 window.ethereum = window.ethereum || {};
 window.web3 = window.web3 || {};
+window.Buffer = window.Buffer || Buffer;
 
 
 const Home: React.FC = () => {
