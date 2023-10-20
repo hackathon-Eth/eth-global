@@ -15,6 +15,7 @@ window.web3 = window.web3 || {};
 const Home: React.FC = () => {
   const initialUsers = Array.from({ length: 10 }, (_, i) => `User-${i + 1}`);
   const [users, setUsers] = useState(initialUsers);
+  const [accept, setAccept] = useState(false);
 
   const connectToMetaMask = async () => {
     if (window.ethereum) {
@@ -56,8 +57,9 @@ const Home: React.FC = () => {
 
   const handleCardClick = (index: number) => {
     console.log(`Card ${users[index]} clicked`);
-    connectToMetaMask();
-    sendMessage('0x50e6A61Ad6DB24C192C0C5A727443A39cF3C8AC9', 'Hello World!');
+    // connectToMetaMask();
+    // sendMessage('0x50e6A61Ad6DB24C192C0C5A727443A39cF3C8AC9', 'Hello World!');
+    setAccept(!accept);
   };
 
   return (
@@ -69,7 +71,7 @@ const Home: React.FC = () => {
       </IonHeader>
 
       <IonContent>
-        <TempChat users={users} />
+        {accept ? <TempChat address='0x50e6A61Ad6DB24C192C0C5A727443A39cF3C8AC9'/> : <IonText>NO Active Chat</IonText>}
       </IonContent>
 
       <IonContent>
