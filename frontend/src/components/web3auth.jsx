@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Web3Auth } from "@web3auth/web3auth";
-import { CHAIN_NAMESPACES } from "@web3auth/base";
+import { Web3Auth, CHAIN_NAMESPACES } from "@web3auth/web3auth";
 
-const Web3AuthButton = () => {
+export const Web3AuthButton = async () => {
     const [web3auth, setWeb3auth] = useState(null);
     const [provider, setProvider] = useState(null);
     const [address, setAddress] = useState("");
@@ -79,5 +78,3 @@ const Web3AuthButton = () => {
         </div>
     );
 }
-
-export default Web3AuthButton;
