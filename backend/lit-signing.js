@@ -1,19 +1,27 @@
 import * as LitJsSdk from "@lit-protocol/lit-node-client-nodejs";
 
-const client = new LitJsSdk.LitNodeClient({
-  litNetwork: 'cayenne',
-});
-const chain = "ethereum";
+const accessControlConditions = [
+  {
+    contractAddress: "",
+    standardContractType: "",
+    chain: "ethereum",
+    method: "eth_getBalance",
+    parameters: [":userAddress", "latest"],
+    returnValueTest: {
+      comparator: "<=",
+      value: "1000000000000", // 0.000001 ETH
+    },
+  },
+];
 
+const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain: "ethereum" });
 
-const litSign = async (message) => {
-  const signature = await client.signMessage(message, chain);
-  return signature;
-}
-
-const litVerify = async (message, signature) => {
-  const result = await client.verifyMessage(message, signature, chain);
-  return result;
-}
-
-export { litSign, litVerify };
+const { ciphertext, dataToEncryptHash } = await LitJsSdk.encryptString(
+  {
+    accessControlConditions,
+    authSig,
+    chain: 'ethereum',
+    dataToEncrypt: 'this is a secret message',
+  },
+  litNodeClient,
+);  
