@@ -15,3 +15,4 @@ class Lit {
 }
 
 export default new Lit()
+export { client, chain }
