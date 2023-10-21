@@ -1,5 +1,5 @@
 import { Auth, useAuth } from "@arcana/auth-react";
-
+import { Hellix } from "../components/dna";
 const onLogin = async () => {
     window.location.href = "http://localhost:3000/";
 }
@@ -11,12 +11,13 @@ const Arcana = () => {
     }
     return (
         <div className="VideoInput">
-            <h1>Connect to DNA</h1>
-            <div>
+            <div className="name">Connect DNA</div>
+            <Hellix/>
+            <div className="page">
             {auth.loading ? (
                 "Loading"
             ) : auth.isLoggedIn ? (
-                <p>Logged In</p>
+                <div className="name">Logged In</div>
             ) : (
                 <div>
                     <Auth externalWallet={true} theme={"dark"} onLogin={onLogin} />
