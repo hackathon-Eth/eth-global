@@ -32,3 +32,9 @@ app.post('/uploadDNA', upload.single('file'),async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+
+// a - 1
+// c - 2
+// t - 4
+// g - 3
