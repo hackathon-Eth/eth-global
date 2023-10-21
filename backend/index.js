@@ -22,13 +22,7 @@ const getFileIPFS = async (cid) => {
   const res = await IPFSclient.get(cid);
   const files = await res.files(); // Web3File[]
   for (const file of files) {
-    console.log(`${file.cid} ${file.name} ${file.size}`);
     console.log(await file.text());
-    console.log(await file.arrayBuffer());
-    const text = new TextDecoder().decode(await file.arrayBuffer());
-    console.log(text);
-    console.log(file.stream());
-    console.log(file);
   }
 } 
 
@@ -40,8 +34,12 @@ app.post('/uploadDNA', upload.single('file'),async (req, res) => {
   }
   const data = fs.readFileSync(uploadedFile.path, 'utf8');
   console.log(data);
-  const uploadFile = new File([uploadedFile.buffer], uploadedFile.originalname, { type: uploadedFile.mimetype });
-  const cid = await IPFSclient.put([uploadFile]);
+  const obj = {DNA: data};
+  const blob = new Blob([JSON.stringify(obj)], { type: "application/json" });
+  const files = [
+    new File([blob], 'dna.json', { type: "application/json" })
+  ]
+  const cid = await IPFSclient.put(files);
   console.log(cid);
   const file = await getFileIPFS(cid);
   return res.status(200).json({ cid });
