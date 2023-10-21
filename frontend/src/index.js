@@ -1,17 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import { AuthProvider } from '@arcana/auth';
+import App from "./App";
+import { ProvideAuth } from "@arcana/auth-react";
 import reportWebVitals from './reportWebVitals';
+import './index.css';
+
+const provider = new AuthProvider(`8afe688dafd1119144bb600dae348c712add9daf`);
+provider.init();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <ProvideAuth provider={provider}>
     <App />
-  </React.StrictMode>
+    </ProvideAuth>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
