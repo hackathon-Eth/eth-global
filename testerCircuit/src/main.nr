@@ -16,13 +16,7 @@ fn check_commitment(
 }
 
 fn compare_dna_lc_string(dna1: [u32; 25], dna2: [u32; 25]) -> u32{
-    // Compare two DNA strings.
-    // Logic: DNA strings should be of length 25 and only contain the characters A, C, G, and T.
-    // Return 1 if the strings are equal, 0 otherwise.
-    let mut flag = 0;
-    if (dna1 == dna2){
-        flag = 1;
-    };
+    // Compare two DNA samples with the longest common substring algorithm
 
     let mut count = 0;
     let mut max = 0;
@@ -42,6 +36,7 @@ fn compare_dna_lc_string(dna1: [u32; 25], dna2: [u32; 25]) -> u32{
 }
 
 fn compare_dna_lc_sub(dna1: [u32; 25], dna2: [u32; 25]) -> u32{
+    // Compare two DNA samples with the longest common subsequence algorithm
     
     let mut lcs = [[0; DNA_LENGTH + 1]; DNA_LENGTH + 1];
     for i in 0..DNA_LENGTH + 1 {
@@ -67,7 +62,7 @@ fn compare_dna_lc_sub(dna1: [u32; 25], dna2: [u32; 25]) -> u32{
     lcs[DNA_LENGTH][DNA_LENGTH] * 100 / DNA_LENGTH
 }
 
-fn main(dna1: [u32; 25], dna2: [u32; 25], secret: Field, commitment: Field) -> pub u32{
+fn main(dna1:pub [u32; 25], dna2:pub [u32; 25], secret:pub Field, commitment:pub Field) -> pub u32{
     check_commitment(commitment, secret, dna1);
     compare_dna_lc_string(dna1, dna2)
     // compare_dna_lc_sub(dna1, dna2)
