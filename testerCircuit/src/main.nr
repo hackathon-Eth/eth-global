@@ -55,9 +55,12 @@ fn compare_dna(dna1: [u32; 25], dna2: [u32; 25]) -> u32{
     };
 
     flag
+    // Yaha pe instead of flag it returns a percentage
 }
 
-fn main(dna1: [u32; 25], dna2: [u32; 25], secret: Field, commitment1: Field, commitment2: Field) {
+fn main(dna1: [u32; 25], dna2: [u32; 25], secret: Field, commitment1: Field, commitment2: Field) -> pub u32{
     check_commitment(commitment1, secret, dna1);
     check_commitment(commitment2, secret, dna2);
+
+    compare_dna(dna1, dna2)
 }
