@@ -15,37 +15,7 @@ fn check_commitment(
     assert(commitment == std::hash::pedersen(transcript)[0]);
 }
 
-// fn find_lcs(dna1: [u32; 25], dna2: [u32; 25]) -> [u32; 25] {
-//     let mut lcs = [[0; 26]; 26];
-//     let mut max_length = 0;
-//     let mut end_index = 0;
-
-//     for i in 1..25 {
-//         for j in 1..25 {
-//             if dna1[i - 1] == dna2[j - 1] {
-//                 lcs[i][j] = lcs[i - 1][j - 1] + 1;
-//                 if lcs[i][j] > max_length {
-//                     max_length = lcs[i][j];
-//                     end_index = i;
-//                 }
-//             }
-//         }
-//     }
-
-//     let mut result = [0; 25];
-//     let mut index = 0;
-//     while max_length > 0 {
-//         result[index] = dna1[end_index - 1];
-//         end_index -= 1;
-//         index += 1;
-//         max_length -= 1;
-//     }
-
-//     result.reverse();
-//     result
-// }
-
-fn compare_dna(dna1: [u32; 25], dna2: [u32; 25]) -> u32{
+fn compare_dna_lc_string(dna1: [u32; 25], dna2: [u32; 25]) -> u32{
     // Compare two DNA strings.
     // Logic: DNA strings should be of length 25 and only contain the characters A, C, G, and T.
     // Return 1 if the strings are equal, 0 otherwise.
@@ -54,13 +24,51 @@ fn compare_dna(dna1: [u32; 25], dna2: [u32; 25]) -> u32{
         flag = 1;
     };
 
-    flag
-    // Yaha pe instead of flag it returns a percentage
+    let mut count = 0;
+    let mut max = 0;
+    for i in 0..DNA_LENGTH {
+        if(dna1[i] == dna2[i]){
+            count += 1;
+        }
+        else {
+            max = count;
+            count = 0;
+        }
+    }
+
+    std::println("Max: ");
+    std::println(max);
+    max * 100 / DNA_LENGTH
 }
 
-fn main(dna1: [u32; 25], dna2: [u32; 25], secret: Field, commitment1: Field, commitment2: Field) -> pub u32{
-    check_commitment(commitment1, secret, dna1);
-    check_commitment(commitment2, secret, dna2);
+fn compare_dna_lc_sub(dna1: [u32; 25], dna2: [u32; 25]) -> u32{
+    
+    let mut lcs = [[0; DNA_LENGTH + 1]; DNA_LENGTH + 1];
+    for i in 0..DNA_LENGTH + 1 {
+        for j in 0..DNA_LENGTH + 1{
+            if (i==j) & (i == 0) & (j==0){
+                lcs[i][j] = 0;
+            }
+            else if dna1[i-1] == dna2[j-1]{
+                lcs[i][j] = lcs[i-1][j-1] + 1;
+            }
+            else{
+               if(lcs[i-1][j] as u32 > lcs[i][j-1] as u32){
+                   lcs[i][j] = lcs[i-1][j];
+               }
+               else{
+                   lcs[i][j] = lcs[i][j-1];
+               }
+            }
+        }
+    }
+    std::println("LCS: ");
+    std::println(lcs[DNA_LENGTH][DNA_LENGTH]);
+    lcs[DNA_LENGTH][DNA_LENGTH] * 100 / DNA_LENGTH
+}
 
-    compare_dna(dna1, dna2)
+fn main(dna1: [u32; 25], dna2: [u32; 25], secret: Field, commitment: Field) -> pub u32{
+    check_commitment(commitment, secret, dna1);
+    compare_dna_lc_string(dna1, dna2)
+    // compare_dna_lc_sub(dna1, dna2)
 }
