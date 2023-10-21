@@ -28,7 +28,7 @@ const ListPage = () => {
           <ul className="data-list">
             {data.map((item, index) => (
               <li key={index} className="list-item">
-                <span className="name">{item.name}</span>
+                {/* <span className="name">{item.name}</span> */}
                 <span className="percentage">{item.percentage}</span>
                 <button className="nudge-button">Nudge To Contact</button>
               </li>
