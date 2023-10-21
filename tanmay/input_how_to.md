@@ -1,0 +1,13 @@
+# Inputs aise le lena
+
+## Prover.toml for user circuit (isme inputs hai) user circuit will return a commitment hash
+dna = [4, 3, 1, 4, 4, 4, 4, 1, 3, 2, 2, 1, 4, 3, 3, 3, 1, 2, 2, 1, 1, 1, 4, 1, 3]
+secret = "0x2a3aff13656d886d8588af5e42c706e3249d739bc52c8b36cfeeb6f672f531"
+
+## Prover.toml for tester circuit which will return the length of the dna which is same. (LCS waala)
+commitment = "0x2f2999374a6dce0bc4181e733706c12fe82d1c1e42daea755f8e96074013a34a"
+# User DNA
+dna1 = [4, 3, 1, 4, 4, 4, 4, 1, 3, 2, 2, 1, 4, 3, 3, 3, 1, 2, 2, 1, 1, 1, 4, 1, 3]
+# Server DNA
+dna2 = [4, 2, 2, 4, 4, 4, 1, 2, 4, 4, 1, 3, 2, 3, 2, 4, 2, 1, 2, 4, 3, 4, 4, 1, 1]
+secret = "0x2a3aff13656d886d8588af5e42c706e3249d739bc52c8b36cfeeb6f672f531"
