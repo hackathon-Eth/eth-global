@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import os from 'os';
+import fs from 'fs';
 import { Web3Storage, File, filesFromPath } from 'web3.storage'
 const app = express();
 const port = 4000; 
@@ -23,6 +24,8 @@ app.post('/uploadDNA', upload.single('file'),async (req, res) => {
   if (!uploadedFile) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
+  const data = fs.readFileSync(uploadedFile.path, 'utf8');
+  console.log(data);
   const uploadFile = new File([uploadedFile.buffer], uploadedFile.originalname, { type: uploadedFile.mimetype });
   const cid = await IPFSclient.put([uploadFile]);
   console.log(cid);
