@@ -4,8 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import os from 'os';
-import fs, { chownSync } from 'fs';
-import { Web3Storage, File, filesFromPath } from 'web3.storage'
+import fileUpload from './fileUpload';
+import getFileIPFS from './ipfs-retrieve';
 const app = express();
 const port = 4000; 
 dotenv.config();
@@ -18,29 +18,13 @@ const IPFSclient = new Web3Storage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ
 
 const upload = multer({ dest: os.tmpdir() });
 
-const getFileIPFS = async (cid) => {
-  const res = await IPFSclient.get(cid);
-  const files = await res.files(); // Web3File[]
-  for (const file of files) {
-    console.log(await file.text());
-  }
-} 
-
 app.post('/uploadDNA', upload.single('file'),async (req, res) => {
   const uploadedFile = req.file;
-  console.log(uploadedFile);
+
   if (!uploadedFile) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
-  const data = fs.readFileSync(uploadedFile.path, 'utf8');
-  console.log(data);
-  const obj = {DNA: data};
-  const blob = new Blob([JSON.stringify(obj)], { type: "application/json" });
-  const files = [
-    new File([blob], 'dna.json', { type: "application/json" })
-  ]
-  const cid = await IPFSclient.put(files);
-  console.log(cid);
+  const cid = await fileUpload(uploadedFile);
   const file = await getFileIPFS(cid);
   return res.status(200).json({ cid });
 });
