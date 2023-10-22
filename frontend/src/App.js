@@ -19,7 +19,7 @@ function App() {
         <Route path="/chat" element={<ChatApp />} />
         <Route path="/list" element={<ListPage />} />
         <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
+      </Routes>
     </BrowserRouter>
   );
 }

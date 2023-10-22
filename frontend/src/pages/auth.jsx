@@ -1,13 +1,13 @@
 import { Auth, useAuth } from "@arcana/auth-react";
 import { Hellix } from "../components/dna";
 const onLogin = async () => {
-    window.location.href = "http://localhost:3000/";
+    window.location.href = "http://localhost:3000/upload";
 }
 
 const Arcana = () => {
     const auth = useAuth();
     if(auth.isLoggedIn){
-        window.location.href = "http://localhost:3000/";
+        window.location.href = "http://localhost:3000/upload";
     }
     return (
         <div className="VideoInput">
