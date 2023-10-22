@@ -4,14 +4,14 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import os from 'os';
-import fileUpload from './fileUpload';
+import fileUpload from './ipfs-fileUpload';
 import getFileIPFS from './ipfs-retrieve';
 const app = express();
 const port = 4000; 
 dotenv.config();
 import * as testCircuit from './testCircuit';
 import * as dnaChecker from './dna-checker';
-
+import fs from 'fs';
 app.use(bodyParser.json({ limit: '100mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 app.use(cors());
@@ -21,33 +21,42 @@ const IPFSclient = new Web3Storage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ
 const upload = multer({ dest: os.tmpdir() });
 
 const convert = (s) => {
-  for(i = 0; i < s.length; i++) {
-    if(s[i] == 'a') {
-      s[i] = '1';
-    }
-    else if(s[i] == 'c') {
-      s[i] = '2';
-    }
-    else if(s[i] == 't') {
-      s[i] = '4';
-    }
-    else if(s[i] == 'g') {
-      s[i] = '3';
+  let res = [];
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === 'a') {
+      res.push(1);
+    } else if (s[i] === 'c') {
+      res.push(2);
+    } else if (s[i] === 'g') {
+      res.push(3);
+    } else if (s[i] === 't') {
+      res.push(4);
     }
   }
-  return s;
+  return res;
 };
 
 app.post('/uploadDNA', upload.single('file'),async (req, res) => {
   const uploadedFile = req.file;
+  const sign = req.body.signature;
 
   if (!uploadedFile) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
+  const data = fs.readFileSync(uploadedFile.path, 'utf8');
+  const s = convert(data);
   // const cid = await fileUpload(uploadedFile);
   // const file = await getFileIPFS(cid);
   // return res.status(200).json({ cid });
-  
+  const input = {dna : s, secret : sign};
+  const witness = await dnaChecker.generateWitness(input, acirBuffer);
+
+  const proof = await dnaChecker.generateProof(witness);
+  const result = await dnaChecker.verifyProof(proof);
+  if(result){
+    fileUpload(s);
+  }
+  api.destroy();
 });
 
 app.listen(port, () => {

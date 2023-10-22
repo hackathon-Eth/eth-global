@@ -50,4 +50,15 @@ async function verifyProof(proof) {
   return verified;
 }
 
-export { generateWitness, generateProof, verifyProof };
+const verifyProofBlockchain = async (proof, verifierAddress, abi) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = this.provider.getSigner();
+
+  const contract = new ethers.Contract(verifierAddress, abi, signer);
+
+  const publicInputs = proof.slice(0, 32);
+  const slicedProof = proof.slice(32);
+  return await contract.verify(slicedProof, [publicInputs]);
+};
+
+export { generateWitness, generateProof, verifyProof, verifyProofBlockchain };

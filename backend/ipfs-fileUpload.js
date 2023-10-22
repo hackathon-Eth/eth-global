@@ -1,9 +1,8 @@
 import IPFSclient from "./ipfs-client";
-import fs from 'fs';
+import encrypt from "./lit-encryption";
 
-const fileUpload = async (file) => {
-  const data = fs.readFileSync(uploadedFile.path, 'utf8');
-  console.log(data);
+const fileUpload = async (data) => {
+  const encryptedStore = await encrypt(data);
   const obj = {DNA: data};
   const blob = new Blob([JSON.stringify(obj)], { type: "application/json" });
   const files = [
