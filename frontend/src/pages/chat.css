@@ -95,6 +95,11 @@ input {
   margin-right: 10px;
 }
 
+.chats-heading{
+  font-size:1.5rem;
+  margin: 1rem;
+}
+
 button {
   background: linear-gradient(135deg, #0096d6, #003247)!important;
   color: white;
