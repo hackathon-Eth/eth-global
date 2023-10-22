@@ -8,6 +8,7 @@ const ChatApp = () => {
   const [activeChat, setActiveChat] = useState(null);
   const [message, setMessage] = useState('');
   const [chats, setChats] = useState([]);
+  const [nudges, setNudges] = useState([])
   const [isLoading, setIsLoading] = useState(true);
   const [signer, setSigner] = useState(null);
   const [xmtpInstance, setXmtpInstance] = useState(null);
@@ -17,6 +18,7 @@ const ChatApp = () => {
 
   useEffect(() => {
     // Simulate loading the chats
+
       const timeoutId = setTimeout(() => {
       setChats(streamChat2);
       console.log(streamChat2);
@@ -81,48 +83,85 @@ const ChatApp = () => {
     setMessage('');
   };
 
+  const handleAcceptNudge = () => {
+    chats[activeChat-1].isNudge = false
+  }
   return (
     <div className="chat-app">
-      <div className="chat-list">
+      <div className="chat-list" style={{padding:"2rem"}}>
+        <div className='chats-heading'> Active Conversations</div>
         {isLoading ? (
-          <p>Loading chats...</p>
-        ) : (
-          chats.map((chat, index) => (
-            <div
-              key={chat.id}
-              className={`chat-item ${activeChat === chat.id ? 'active' : ''}`}
-              onClick={() => handleChatClick(chat.id)}
-              style={{ animationDelay: `${index * 0.2}s` }}
-            >
-              {chat.walletAddress}
-            </div>
-          ))
-        )}
+  <p>Loading chats...</p>
+) : (
+  chats.map((chat, index) => (
+    !chat.isNudge ? (
+      <div
+        key={chat.id}
+        className={`chat-item ${activeChat === chat.id ? 'active' : ''}`}
+        onClick={() => handleChatClick(chat.id)}
+        style={{ animationDelay: `${index * 0.2}s` }}
+      >
+        {chat.walletAddress}
+      </div>
+    ) : null
+  ))
+)}
+
+        <div className='chats-heading'> Contact Nudges! </div>
+        {isLoading ? (
+  <p>Loading chats...</p>
+) : (
+  chats.map((chat, index) => (
+    chat.isNudge ? (
+     <div
+        key={chat.id}
+        className={`chat-item ${activeChat === chat.id ? 'active' : ''}`}
+        onClick={() => handleChatClick(chat.id)}
+        style={{ animationDelay: `${index * 0.2}s` }}
+      >
+        {chat.walletAddress}
+      </div>
+    ) : null
+  ))
+)}
+
+
       </div>
       <div className="chat-container">
         <h1 className="chat-heading">DNA-Connections</h1>
         <div className="chat-header">
-          {activeChat !== null && <span className="wallet-address">{chats[activeChat - 1].walletAddress}</span>}
+          {activeChat !== null && <span className="wallet-address"> You are talking with {chats[activeChat - 1].walletAddress}!</span>}
         </div>
         <div className="chat-messages">
-          {activeChat !== null &&
-            chats[activeChat - 1].messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.isUser ? 'user' : 'other'}`}>
-                {msg.text}
-              </div>
-            ))}
-        </div>
-        {activeChat !== null && (
-          <div className="chat-input">
-            <input
-              type="text"
-              placeholder="Type a message..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button onClick={handleSendMessage}>Send</button>
-          </div>
-        )}
+  {activeChat !== null && !chats[activeChat - 1].isNudge && (
+    chats[activeChat - 1].messages.map((msg, index) => (
+      <div key={index} className={`message ${msg.isUser ? 'user' : 'other'}`}>
+        {msg.text}
+      </div>
+    ))
+  )}
+</div>
+
+{activeChat !== null && !chats[activeChat - 1].isNudge && (
+  <div className="chat-input">
+    <input
+      type="text"
+      placeholder="Type a message..."
+      value={message}
+      onChange={(e) => setMessage(e.target.value)}
+    />
+    <button onClick={handleSendMessage} style={{ margin: "0", width: "5rem", height: "2.5rem" }}>
+      Send
+    </button>
+  </div>
+)}
+
+{activeChat !== null && chats[activeChat - 1].isNudge && (
+    <button onClick={handleAcceptNudge} style={{ margin: "0", width: "100%", height: "2.5rem",justifyContent:"center",marginBottom:"1rem"}}>
+    Accept Nudge
+  </button>
+)}
+
       </div>
     </div>
   );

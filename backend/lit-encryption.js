@@ -1,8 +1,8 @@
 import * as LitJsSdk from "@lit-protocol/lit-node-client-nodejs";
 import { checkAndSignAuthMessage } from '@lit-protocol/lit-node-client';
-import Lit from './lit-client'
-import accessControlConditions from './access-control';
-import { client, chain } from './lit-client'
+import Lit from './lit-client.js'
+import accessControlConditions from './access-control.js';
+import { client, chain } from './lit-client.js'
 
 const encrypt = async (dataToEncrypt) => {
   const authSig = await checkAndSignAuthMessage({

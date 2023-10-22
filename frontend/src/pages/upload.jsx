@@ -10,7 +10,7 @@ const baseStyle = {
   padding: '20px',
   borderWidth: 2,
   borderRadius: 2,
-  borderColor: '#f5f5f5da',
+  borderColor: '#c4c4c4',
   borderStyle: 'dashed',
   backgroundColor: '#fafafa',
   color: '#bdbdbd',
@@ -20,7 +20,7 @@ const baseStyle = {
   height:"100%",
   justifyContent:"center",
   backgroundColor:"transparent",
-  color:"#f5f5f5da"
+  color:"#c4c4c4"
 };
 
 const focusedStyle = {
@@ -87,7 +87,7 @@ const FileUploadForm = () => {
   return (
     <div style={{display:"flex",height:"100%"}}>
       <div style={{width:"50%", padding:"2rem",display:"flex",flexDirection:"column"}}>
-      <h1>Upload a DNA File</h1>
+      <h1 className="page-heading">Upload a DNA File</h1>
       <textarea
         placeholder="Your Signature of the form 0x...."
         value={signature}

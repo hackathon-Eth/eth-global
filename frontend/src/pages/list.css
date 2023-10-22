@@ -42,7 +42,7 @@
 }
 
 .page-heading {
-  font-size: 24px;
+  font-size: 4rem;
   margin: 20px;
 }
 
@@ -56,10 +56,8 @@
 }
 
 .data-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
+  display: flex;
+  padding: 2rem
 }
 
 .list-item {
@@ -99,6 +97,30 @@
   background: #0056b3;
 }
 
+.profile-card{
+  background-color: #232323;
+  margin-right:3rem;
+  padding: 1.5rem;
+  height: 20rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 8px;
+}
+.dna-name{
+color:#c4c4c4;
+  margin-bottom: 2rem;
+}
+#myProgress{
+  margin-bottom: 2rem;
+}
+
+.contact-button{
+  height: 2rem;
+  margin: auto;
+  width: auto;
+}
 @keyframes dnaAnimation {
   0% {
     transform: translateY(-10%);
