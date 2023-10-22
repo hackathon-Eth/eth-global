@@ -9,6 +9,8 @@ import getFileIPFS from './ipfs-retrieve';
 const app = express();
 const port = 4000; 
 dotenv.config();
+import * as testCircuit from './testCircuit';
+import * as dnaChecker from './dna-checker';
 
 app.use(bodyParser.json({ limit: '100mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
@@ -18,15 +20,34 @@ const IPFSclient = new Web3Storage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ
 
 const upload = multer({ dest: os.tmpdir() });
 
+const convert = (s) => {
+  for(i = 0; i < s.length; i++) {
+    if(s[i] == 'a') {
+      s[i] = '1';
+    }
+    else if(s[i] == 'c') {
+      s[i] = '2';
+    }
+    else if(s[i] == 't') {
+      s[i] = '4';
+    }
+    else if(s[i] == 'g') {
+      s[i] = '3';
+    }
+  }
+  return s;
+};
+
 app.post('/uploadDNA', upload.single('file'),async (req, res) => {
   const uploadedFile = req.file;
 
   if (!uploadedFile) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
-  const cid = await fileUpload(uploadedFile);
-  const file = await getFileIPFS(cid);
-  return res.status(200).json({ cid });
+  // const cid = await fileUpload(uploadedFile);
+  // const file = await getFileIPFS(cid);
+  // return res.status(200).json({ cid });
+  
 });
 
 app.listen(port, () => {
