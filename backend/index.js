@@ -59,12 +59,13 @@ app.post('/uploadDNA', upload.single('file'),async (req, res) => {
   api.destroy();
 });
 
+app.get('/downloadDNA', async (req, res) => {
+  const cid = req.query.cid;
+  const file = await getFileIPFS(cid);
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
 
-// a - 1
-// c - 2
-// t - 4
-// g - 3
