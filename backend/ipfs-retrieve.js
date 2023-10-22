@@ -1,5 +1,5 @@
-import IPFSclient from "./ipfs-client";
-import decrypt from "./lit-decryption";
+import IPFSclient from "./ipfs-client.js";
+import decrypt from "./lit-decryption.js";
 
 const getFileIPFS = async (cid) => {
   const res = await IPFSclient.get(cid);

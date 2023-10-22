@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@aztec/bb.js": "^0.3.6",
+    "@lit-protocol/lit-node-client": "^2.2.61",
     "@lit-protocol/lit-node-client-nodejs": "^3.0.14",
     "@noir-lang/acvm_js": "git+https://git@github.com/noir-lang/acvm-simulator-wasm.git#b9d9ca9dfc5140839f23998d9466307215607c42",
     "@types/cors": "^2.8.15",

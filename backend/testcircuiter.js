@@ -1,8 +1,10 @@
-import circuit from './testerCircuit.json';
 import { decompressSync } from 'fflate';
 import { Crs, newBarretenbergApiAsync, RawBuffer } from '@aztec/bb.js/dest/node/index.js';
 import { ethers } from 'ethers';
 import { executeCircuit, compressWitness } from '@noir-lang/acvm_js';
+import fs from 'fs';
+
+const circuit = JSON.parse(fs.readFileSync('./testerCircuit.json', 'utf8'));
 
 const acirBuffer = Buffer.from(circuit.bytecode, 'base64');
 const acirBufferUncompressed = decompressSync(acirBuffer);

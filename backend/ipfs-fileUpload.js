@@ -1,5 +1,5 @@
-import IPFSclient from "./ipfs-client";
-import encrypt from "./lit-encryption";
+import IPFSclient from "./ipfs-client.js";
+import encrypt from "./lit-encryption.js";
 
 const fileUpload = async (data) => {
   const encryptedStore = await encrypt(data);
