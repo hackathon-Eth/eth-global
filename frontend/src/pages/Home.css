@@ -166,7 +166,7 @@
     width: 40%;
     font-size: 8rem;
     opacity: 0;
-    color: white;
+    color: #ebffff;
             transform: translateY(50px);
             animation: fade-in-up 1.2s ease forwards;
 

@@ -70,7 +70,7 @@ const ChatApp = () => {
       <div className="chat-container">
         <h1 className="chat-heading">DNA-Connections</h1>
         <div className="chat-header">
-          {activeChat !== null && <span className="wallet-address">{chats[activeChat - 1].walletAddress}</span>}
+          {activeChat !== null && <span className="wallet-address"> You are talking with {chats[activeChat - 1].walletAddress}!</span>}
         </div>
         <div className="chat-messages">
           {activeChat !== null &&
@@ -88,7 +88,7 @@ const ChatApp = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
-            <button onClick={handleSendMessage}>Send</button>
+            <button onClick={handleSendMessage} style={{margin:"0", width:"5rem", height:"2.5rem"}}>Send</button>
           </div>
         )}
       </div>
