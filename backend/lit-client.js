@@ -1,7 +1,8 @@
-import * as LitJsSdk from "@lit-protocol/lit-node-client-nodejs";
+import * as LitJsSdk from "@lit-protocol/lit-node-client";  
 
 const client = new LitJsSdk.LitNodeClient({
-  litNetwork: 'cayenne',
+  alertWhenUnauthorized: false,
+  litNetwork: 'jalapeno',
 });
 const chain = "ethereum";
 

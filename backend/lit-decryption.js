@@ -1,7 +1,7 @@
-import Lit from './lit-client'
-import { chain, client } from './lit-client'
+import Lit from './lit-client.js'
+import { chain, client } from './lit-client.js'
 import * as LitJsSdk from "@lit-protocol/lit-node-client-nodejs";
-import accessControlConditions from './access-control';
+import accessControlConditions from './access-control.js';
 
 const decrypt = async (ciphertext, dataToEncryptHash) => { 
   const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain: 'ethereum' })
