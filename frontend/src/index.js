@@ -6,6 +6,7 @@ import { ProvideAuth } from "@arcana/auth-react";
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 
+
 const provider = new AuthProvider(`8afe688dafd1119144bb600dae348c712add9daf`);
 provider.init();
 

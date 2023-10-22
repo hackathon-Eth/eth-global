@@ -1,6 +1,6 @@
-import { Redirect, Route } from 'react-router-dom';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from './pages/Home';
-import Graph from "./pages/graph"
 import logo from './logo.svg';
 import Arcana from './pages/auth'
 import FileUploadForm from './pages/upload';
@@ -12,7 +12,15 @@ import './theme/variables.css';
 
 function App() {
   return (
-    <ListPage/>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Arcana />} />
+        <Route path="/upload" element={<FileUploadForm />} />
+        <Route path="/chat" element={<ChatApp />} />
+        <Route path="/list" element={<ListPage />} />
+        <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+    </BrowserRouter>
   );
 }
 
