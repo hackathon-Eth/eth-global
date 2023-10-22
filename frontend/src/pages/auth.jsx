@@ -11,7 +11,7 @@ const Arcana = () => {
     }
     return (
         <div className="VideoInput">
-            <div className="name">Connect DNA</div>
+            <div className="name">GeneLink</div>
             <Hellix/>
             <div className="page">
             {auth.loading ? (

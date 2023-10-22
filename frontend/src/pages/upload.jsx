@@ -69,7 +69,7 @@ const FileUploadForm = () => {
 
       setUploading(true);
 
-      axios
+      const res = axios
         .post('http://localhost:4000/uploadDNA', formData)
         .then((response) => {
           console.log(response.data);
@@ -81,6 +81,8 @@ const FileUploadForm = () => {
           console.error(error);
           setUploading(false);
         });
+      localStorage.setItem('commitment', res.data.commitment);
+      localStorage.setItem('cid', res.data.cid);
     }
     window.location.href = "http://localhost:3000/loading";
   };

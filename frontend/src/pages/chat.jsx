@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './chat.css';
-import {connecttoXmtp, streamChat1, streamChat2} from '../components/helper.js'
 
 const ethers = require("ethers")
 const Client = 'sds';
@@ -20,6 +19,7 @@ const ChatApp = () => {
     // Simulate loading the chats
 
       const timeoutId = setTimeout(() => {
+        let streamChat2 = {}
       setChats(streamChat2);
       console.log(streamChat2);
       setIsLoading(false);
@@ -61,22 +61,22 @@ const ChatApp = () => {
   };
 
   const handleChatClick = async (chatId) => {
-    // setDestAddress('0x1234')
-      connectWallet();
-    // if(xmtpInstance === null) {
-    //   connecttoXmtp();
-    // }
+    connectWallet();
+    if(xmtpInstance === null) {
+      connectXmtp();
+    }
     setActiveChat(chatId);
   };
 
   const handleSendMessage = async () => {
-    if (message.trim() === '') return;
 
     let updatedChats = [...chats];
     let newMsg = streamChat1[0].messages[idx];
     setIdx(idx+1);
     console.log(newMsg);
     updatedChats[0].messages.push(newMsg);
+
+    await conversation.sendMessage(newMsg.text);
 
     setChats(updatedChats);
     setMessage('');

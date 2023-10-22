@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './list.css';
 import ProfileCard from '../components/profile';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link, json } from 'react-router-dom'; // Import Link from react-router-dom
 const ListPage = () => {
-  const [data, setData] = useState([
-    { name: 'Anonymous', percentage: 95 },
-    {name: "lmao", percentage:70},
-    { name: 'Whale', percentage: 48 },
-    { name: 'Boxcfyt', percentage: 20 },
-    {name: "idk", percentage:10},
-  ]);
+  const list = localStorage.getItem('list');
   
+  const [data, setData] = useState(JSON.parse(list) || []);
   const [isLoading, setIsLoading] = useState(false);
   const func= ()=>{
     console.log("lmao")
