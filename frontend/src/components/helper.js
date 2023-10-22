@@ -37,6 +37,14 @@ const streamChat2 =    [{
       "walletAddress": "0x50e6A61Ad6DB24C192C0C5A727443A39cF3C8AC9",
       "messages": [
       ]
+    },
+    {
+      "id": 3,
+      "walletAddress": "0x734nndfu33ne33eg4gd331bbcF3749E0983243CE",
+      "isNudge": true,
+      "messages": [
+        { "text": "You've accepted nudged!", "isUser": false }
+      ]
     }
   ]
 

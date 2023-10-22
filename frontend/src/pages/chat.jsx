@@ -3,7 +3,7 @@ import './chat.css';
 import {connecttoXmtp, streamChat1, streamChat2} from '../components/helper.js'
 
 const ethers = require("ethers")
-
+const Client = 'sds';
 const ChatApp = () => {
   const [activeChat, setActiveChat] = useState(null);
   const [message, setMessage] = useState('');
@@ -44,22 +44,21 @@ const ChatApp = () => {
     }
   }
 
-  // write a function connectXmtp to connect to xmtp and store the xmtp instance in state
-  // const connectXmtp = async () => {
-  //   if(signer === null) {
-  //     alert("Please connect wallet first");
-  //     return;
-  //   }
-  //   try {
-  //     const xmtp = await Client.create(signer);
-  //     setXmtpInstance(xmtp);
-  //     const conv = await xmtp.conversations.newConversation(destAddress);
-  //     setConversation(conv);
+  const connectXmtp = async () => {
+    if(signer === null) {
+      alert("Please connect wallet first");
+      return;
+    }
+    try {
+      const xmtp = await Client.create(signer);
+      setXmtpInstance(xmtp);
+      const conv = await xmtp.conversations.newConversation(destAddress);
+      setConversation(conv);
 
-  //   } catch(err) {
-  //     alert("Error connecting to xmtp");
-  //   }
-  // };
+    } catch(err) {
+      alert("Error connecting to xmtp");
+    }
+  };
 
   const handleChatClick = async (chatId) => {
     // setDestAddress('0x1234')
@@ -99,7 +98,12 @@ const ChatApp = () => {
         key={chat.id}
         className={`chat-item ${activeChat === chat.id ? 'active' : ''}`}
         onClick={() => handleChatClick(chat.id)}
-        style={{ animationDelay: `${index * 0.2}s` }}
+        style={{
+          animationDelay: `${index * 0.2}s`,
+          overflow: 'hidden',       // Hide overflowing text
+          whiteSpace: 'nowrap',    // Prevent text from wrapping
+          textOverflow: 'ellipsis' // Display an ellipsis (...) when the text overflows
+        }}
       >
         {chat.walletAddress}
       </div>
@@ -117,7 +121,12 @@ const ChatApp = () => {
         key={chat.id}
         className={`chat-item ${activeChat === chat.id ? 'active' : ''}`}
         onClick={() => handleChatClick(chat.id)}
-        style={{ animationDelay: `${index * 0.2}s` }}
+        style={{
+          animationDelay: `${index * 0.2}s`,
+          overflow: 'hidden',       // Hide overflowing text
+          whiteSpace: 'nowrap',    // Prevent text from wrapping
+          textOverflow: 'ellipsis' // Display an ellipsis (...) when the text overflows
+        }}
       >
         {chat.walletAddress}
       </div>

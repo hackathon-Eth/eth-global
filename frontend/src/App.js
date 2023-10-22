@@ -6,6 +6,7 @@ import Arcana from './pages/auth'
 import FileUploadForm from './pages/upload';
 import ChatApp from './pages/chat';
 import ListPage from './pages/list';
+import LoadingPage from "./pages/loading";
 import './App.css';
 /* Theme variables */
 import './theme/variables.css';
@@ -18,6 +19,7 @@ function App() {
         <Route path="/upload" element={<FileUploadForm />} />
         <Route path="/chat" element={<ChatApp />} />
         <Route path="/list" element={<ListPage />} />
+        <Route path="/loading" element={<LoadingPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
